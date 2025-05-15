@@ -12,13 +12,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Configurations\" />
+    <Folder Include="Brands\EventHandlers\" />
+    <Folder Include="Brands\Events\" />
+    <Folder Include="Brands\Exceptions\" />
+    <Folder Include="Brands\Features\" />
+    <Folder Include="Brands\Models\" />
+    <Folder Include="Categories\EventHandlers\" />
+    <Folder Include="Categories\Events\" />
+    <Folder Include="Categories\Exceptions\" />
+    <Folder Include="Categories\Features\" />
+    <Folder Include="Categories\Models\" />
     <Folder Include="Data\Seed\" />
     <Folder Include="Products\EventHandlers\" />
     <Folder Include="Products\Events\" />
     <Folder Include="Products\Exceptions\" />
     <Folder Include="Products\Features\" />
-    <Folder Include="Products\Models\" />
+    <Folder Include="Variants\EventHandlers\" />
+    <Folder Include="Variants\Events\" />
+    <Folder Include="Variants\Exceptions\" />
+    <Folder Include="Variants\Features\" />
+    <Folder Include="Variants\Models\" />
   </ItemGroup>
 
 </Project>
