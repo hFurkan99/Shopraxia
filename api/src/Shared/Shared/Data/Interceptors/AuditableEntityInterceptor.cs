@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Shared.DDD;
 
 namespace Shared.Data.Interceptors
 {
-    public class AuditableEntityInterceptor(IHttpContextAccessor httpContextAccessor) : SaveChangesInterceptor
+    public class AuditableEntityInterceptor() : SaveChangesInterceptor
     {
         public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
         {
@@ -24,19 +23,17 @@ namespace Shared.Data.Interceptors
         {
             if (context == null) return;
 
-            var userName = httpContextAccessor.HttpContext?.User?.Identities?.FirstOrDefault()?.Name;
-
             foreach (var entry in context.ChangeTracker.Entries<IEntity>())
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedBy = userName;
+                    entry.Entity.CreatedBy = "userName";
                     entry.Entity.CreatedAt = DateTime.UtcNow;
                 }
 
                 if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
                 {
-                    entry.Entity.LastModifiedBy = userName;
+                    entry.Entity.LastModifiedBy = "username";
                     entry.Entity.LastModified = DateTime.UtcNow;
                 }
             }

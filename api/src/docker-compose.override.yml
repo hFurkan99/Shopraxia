@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  shopraxiadb:
+    container_name: shopraxiadb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ShopraxiaDb
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_shopraxiadb:/var/lib/postgresql/data/
+
+  pgadmin:
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: always
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  seq:
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+    restart: always
+    ports:
+      - "5341:5341"
+      - "9091:80"
+    volumes:
+      - seq_data:/data

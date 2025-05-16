@@ -7,10 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrapper", "Bootstrappe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Bootstrapper\Api\Api.csproj", "{0674D50D-C9F4-9730-B175-430F4DF2D113}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopraxia.AppHost", "Shopraxia.AppHost\Shopraxia.AppHost.csproj", "{198A605B-B3E9-49AC-858A-53B1985E57E8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopraxia.ServiceDefaults", "Shopraxia.ServiceDefaults\Shopraxia.ServiceDefaults.csproj", "{E2DB2654-785D-D153-FDA8-87AC74C2AA83}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{1DE108BB-0D9F-4F70-966D-CC058CC722D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{00D72B1C-D603-4295-9E33-099080690E51}"
@@ -27,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Contracts", "Shared\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Messaging", "Shared\Shared.Messaging\Shared.Messaging.csproj", "{15F56DCB-15F0-4CEA-A2BF-DBA1609B0679}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,14 +35,6 @@ Global
 		{0674D50D-C9F4-9730-B175-430F4DF2D113}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0674D50D-C9F4-9730-B175-430F4DF2D113}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0674D50D-C9F4-9730-B175-430F4DF2D113}.Release|Any CPU.Build.0 = Release|Any CPU
-		{198A605B-B3E9-49AC-858A-53B1985E57E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{198A605B-B3E9-49AC-858A-53B1985E57E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{198A605B-B3E9-49AC-858A-53B1985E57E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{198A605B-B3E9-49AC-858A-53B1985E57E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2DB2654-785D-D153-FDA8-87AC74C2AA83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2DB2654-785D-D153-FDA8-87AC74C2AA83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2DB2654-785D-D153-FDA8-87AC74C2AA83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2DB2654-785D-D153-FDA8-87AC74C2AA83}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A9AF62C-BC66-4B13-AFBD-D82D6ADC4151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A9AF62C-BC66-4B13-AFBD-D82D6ADC4151}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A9AF62C-BC66-4B13-AFBD-D82D6ADC4151}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,6 +55,10 @@ Global
 		{15F56DCB-15F0-4CEA-A2BF-DBA1609B0679}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15F56DCB-15F0-4CEA-A2BF-DBA1609B0679}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15F56DCB-15F0-4CEA-A2BF-DBA1609B0679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

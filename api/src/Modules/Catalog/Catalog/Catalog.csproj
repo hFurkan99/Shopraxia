@@ -16,22 +16,20 @@
     <Folder Include="Brands\Events\" />
     <Folder Include="Brands\Exceptions\" />
     <Folder Include="Brands\Features\" />
-    <Folder Include="Brands\Models\" />
     <Folder Include="Categories\EventHandlers\" />
     <Folder Include="Categories\Events\" />
     <Folder Include="Categories\Exceptions\" />
     <Folder Include="Categories\Features\" />
-    <Folder Include="Categories\Models\" />
-    <Folder Include="Data\Seed\" />
-    <Folder Include="Products\EventHandlers\" />
-    <Folder Include="Products\Events\" />
-    <Folder Include="Products\Exceptions\" />
-    <Folder Include="Products\Features\" />
+    <Folder Include="Products\Features\GetProducts\" />
+    <Folder Include="Products\Features\GetProductById\" />
+    <Folder Include="Products\Features\GetProductBySlug\" />
+    <Folder Include="Products\Features\DeleteProduct\" />
+    <Folder Include="Products\Features\GetProductVariants\" />
+    <Folder Include="Products\Features\UpdateProduct\" />
     <Folder Include="Variants\EventHandlers\" />
     <Folder Include="Variants\Events\" />
     <Folder Include="Variants\Exceptions\" />
     <Folder Include="Variants\Features\" />
-    <Folder Include="Variants\Models\" />
   </ItemGroup>
 
 </Project>

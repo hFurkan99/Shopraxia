@@ -1,4 +1,6 @@
-﻿namespace Catalog.Data.Configurations;
+﻿using Catalog.Variants.Models;
+
+namespace Catalog.Data.Configurations;
 public class ProductVariantConfiguration
 {
     public static void Configure(EntityTypeBuilder<ProductVariant> builder)

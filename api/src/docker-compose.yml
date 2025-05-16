@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  shopraxiadb:
+    image: postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+  seq:
+    image: datalust/seq:latest
+
+volumes:
+  postgres_shopraxiadb:
+  pgadmin_data:
+  seq_data:
