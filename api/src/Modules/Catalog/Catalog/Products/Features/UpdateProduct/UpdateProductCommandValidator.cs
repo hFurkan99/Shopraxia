@@ -1,14 +1,14 @@
-﻿namespace Catalog.Products.Features.CreateProduct;
+﻿namespace Catalog.Products.Features.UpdateProduct;
 
-public class CreateProductCommandValidator
-    : AbstractValidator<CreateProductCommand>
+public class UpdateProductCommandValidator
+    : AbstractValidator<UpdateProductCommand>
 {
-    public CreateProductCommandValidator()
+    public UpdateProductCommandValidator()
     {
         RuleFor(x => x.ProductPayload.Name)
             .NotEmpty()
             .MaximumLength(200)
-            .WithMessage("Product name is required and must beless than 200 characters long.");
+            .WithMessage("Product name is required and must be less than 200 characters long.");
 
         RuleFor(x => x.ProductPayload.Slug)
             .NotEmpty()
@@ -30,9 +30,5 @@ public class CreateProductCommandValidator
         //RuleFor(x => x.ProductPayload.BrandId)
         //    .NotEmpty()
         //    .WithMessage("Brand ID is required.");
-
-        RuleForEach(x => x.ProductPayload.Variants)
-            .SetValidator(new CreateProductVariantPayloadValidator())
-            .WithMessage("At least one variant is required.");
     }
 }

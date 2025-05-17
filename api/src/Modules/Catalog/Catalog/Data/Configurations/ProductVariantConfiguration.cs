@@ -1,6 +1,5 @@
-﻿using Catalog.Variants.Models;
+﻿namespace Catalog.Data.Configurations;
 
-namespace Catalog.Data.Configurations;
 public class ProductVariantConfiguration
 {
     public static void Configure(EntityTypeBuilder<ProductVariant> builder)
@@ -17,39 +16,14 @@ public class ProductVariantConfiguration
         builder.Property(pv => pv.Stock)
             .IsRequired();
 
-        builder.OwnsMany(pv => pv.Attributes, a =>
-        {
-            a.WithOwner().HasForeignKey("ProductVariantId");
+        builder.HasMany(pv => pv.Attributes)
+            .WithOne(pa => pa.ProductVariant)
+            .HasForeignKey(pa => pa.ProductVariantId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            a.ToTable("ProductVariantAttributes");
-            a.HasKey("ProductVariantId", "Name");
-
-            a.Property<string>("Name")
-            .HasColumnName("Name")
-            .HasMaxLength(100)
-            .ValueGeneratedNever();
-
-            a.Property<string>("Value")
-            .HasColumnName("Value")
-            .HasMaxLength(100)
-            .ValueGeneratedNever();
-        });
-
-        builder.OwnsMany(v => v.Images, i =>
-        {
-            i.WithOwner().HasForeignKey("ProductVariantId");
-
-            i.ToTable("ProductVariantImages");
-            i.HasKey("ProductVariantId", "SortOrder");
-
-            i.Property<string>("Url")
-            .HasColumnName("Url")
-            .IsRequired()
-            .ValueGeneratedNever();
-
-            i.Property<string>("AltText")
-            .HasColumnName("AltText")
-            .ValueGeneratedNever();
-        });
+        builder.HasMany(pv => pv.Images)
+            .WithOne()
+            .HasForeignKey(pa => pa.ProductVariantId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

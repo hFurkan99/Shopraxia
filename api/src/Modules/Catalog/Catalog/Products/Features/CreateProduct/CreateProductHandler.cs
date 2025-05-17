@@ -1,10 +1,5 @@
 ﻿namespace Catalog.Products.Features.CreateProduct;
 
-public record CreateProductCommand(ProductDto ProductDto) 
-    : ICommand<CreateProductResult>;
-
-public record CreateProductResult(Guid Id);
-
 internal class CreateProductHandler(CatalogDbContext dbContext)
     : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
@@ -12,17 +7,17 @@ internal class CreateProductHandler(CatalogDbContext dbContext)
         CreateProductCommand command, 
         CancellationToken cancellationToken)
     {
-        var productDto = command.ProductDto;
-        var product = CreateNewProduct(productDto);
+        var productPayload = command.ProductPayload;
+        var product = CreateNewProduct(productPayload);
         dbContext.Products.Add(product);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new CreateProductResult(product.Id);
     }
 
-    private static Product CreateNewProduct(ProductDto productDto)
+    private static Product CreateNewProduct(CreateProductPayload productPayload)
     {
-        var product = Product.Create(productDto);
+        var product = Product.Create(productPayload);
         return product;
     }
 }

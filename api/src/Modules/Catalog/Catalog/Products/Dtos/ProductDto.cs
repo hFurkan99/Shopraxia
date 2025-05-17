@@ -1,4 +1,5 @@
 ﻿namespace Catalog.Products.Dtos;
+
 public record ProductDto(
     Guid Id,
     string Name,
@@ -6,8 +7,6 @@ public record ProductDto(
     string Description,
     float Rating,
     Guid CategoryId,
-    string CategoryName,
     Guid BrandId,
-    string BrandName,
     List<ProductVariantDto> VariantDtos
 );

@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Products.Features.CreateProduct;
 
-public record CreateProductRequest(ProductDto ProductDto);
+public record CreateProductRequest(CreateProductPayload ProductPayload);
 
 public record CreateProductResponse(Guid Id);
 

@@ -30,6 +30,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/swagger");
+    return Task.CompletedTask;
+});
+
 app.MapCarter();
 app.UseSerilogRequestLogging();
 app.UseExceptionHandler(options => { });

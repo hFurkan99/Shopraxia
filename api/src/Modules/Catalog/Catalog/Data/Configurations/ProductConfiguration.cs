@@ -1,4 +1,5 @@
 ﻿namespace Catalog.Data.Configurations;
+
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
@@ -18,20 +19,25 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.Rating);
 
-        builder.Property(p => p.CategoryId)
-            .IsRequired();
+        //builder.Property(p => p.CategoryId)
+        //    .IsRequired();
 
-        builder.Property(p => p.CategoryName)
-            .IsRequired();
-
-        builder.Property(p => p.BrandId)
-            .IsRequired();
-
-        builder.Property(p => p.BrandName)
-            .IsRequired();
+        //builder.Property(p => p.BrandId)
+        //    .IsRequired();
 
         builder.HasMany(p => p.Variants)
             .WithOne(pv => pv.Product)
-            .HasForeignKey(pv => pv.ProductId);    
+            .HasForeignKey(pv => pv.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(p => p.Category)
+            .WithMany(c => c.Products)
+            .HasForeignKey(p => p.CategoryId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasOne(p => p.Brand)
+            .WithMany(b => b.Products)
+            .HasForeignKey(p => p.BrandId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

@@ -1,9 +1,12 @@
-﻿namespace Catalog.Variants.Models;
+﻿namespace Catalog.ProductVariants.Models;
 
 public class ProductAttribute : Entity<Guid>
 {
     public string Name { get; set; } = default!;
     public string Value { get; set; } = default!;
+
+    public Guid ProductVariantId { get; set; }
+    public ProductVariant ProductVariant { get; set; } = null!;
 
     private ProductAttribute() { }
 

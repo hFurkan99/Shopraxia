@@ -25,11 +25,10 @@
     <Folder Include="Products\Features\GetProductBySlug\" />
     <Folder Include="Products\Features\DeleteProduct\" />
     <Folder Include="Products\Features\GetProductVariants\" />
-    <Folder Include="Products\Features\UpdateProduct\" />
-    <Folder Include="Variants\EventHandlers\" />
-    <Folder Include="Variants\Events\" />
-    <Folder Include="Variants\Exceptions\" />
-    <Folder Include="Variants\Features\" />
+    <Folder Include="ProductVariants\EventHandlers\" />
+    <Folder Include="ProductVariants\Events\" />
+    <Folder Include="ProductVariants\Exceptions\" />
+    <Folder Include="ProductVariants\Features\" />
   </ItemGroup>
 
 </Project>

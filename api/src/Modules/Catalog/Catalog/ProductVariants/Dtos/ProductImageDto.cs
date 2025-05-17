@@ -1,4 +1,4 @@
-﻿namespace Catalog.Variants.Dtos;
+﻿namespace Catalog.ProductVariants.Dtos;
 public record ProductImageDto(
     Guid Id,
     string Url,

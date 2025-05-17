@@ -1,4 +1,4 @@
-﻿namespace Catalog.Variants.Models;
+﻿namespace Catalog.ProductVariants.Models;
 
 public class ProductVariant : Entity<Guid>
 {
@@ -17,33 +17,33 @@ public class ProductVariant : Entity<Guid>
 
     private ProductVariant() { }
 
-    public static ProductVariant Create(ProductVariantDto variantDto, Guid productId)
+    public static ProductVariant Create(CreateProductVariantPayload variantPayload, Guid productId)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(variantDto.Sku);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(variantDto.Price);
-        ArgumentOutOfRangeException.ThrowIfNegative(variantDto.Stock);
+        ArgumentException.ThrowIfNullOrWhiteSpace(variantPayload.Sku);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(variantPayload.Price);
+        ArgumentOutOfRangeException.ThrowIfNegative(variantPayload.Stock);
 
-        if (variantDto.Attributes == null || variantDto.Attributes.Count == 0)
+        if (variantPayload.Attributes == null || variantPayload.Attributes.Count == 0)
             throw new ArgumentException("Variant must have at least one attribute.");
 
-        if (variantDto.Images == null || variantDto.Images.Count == 0)
+        if (variantPayload.Images == null || variantPayload.Images.Count == 0)
             throw new ArgumentException("Variant must have at least one image.");
 
         var variant = new ProductVariant
         {
             Id = Guid.NewGuid(),
-            Sku = variantDto.Sku,
-            Price = variantDto.Price,
-            Stock = variantDto.Stock,
+            Sku = variantPayload.Sku,
+            Price = variantPayload.Price,
+            Stock = variantPayload.Stock,
             ProductId = productId
         };
 
-        foreach (var attrDto in variantDto.Attributes)
+        foreach (var attrDto in variantPayload.Attributes)
         {
             variant._attributes.Add(ProductAttribute.Create(attrDto.Name, attrDto.Value));
         }
 
-        foreach (var imgDto in variantDto.Images)
+        foreach (var imgDto in variantPayload.Images)
         {
             variant._images.Add(ProductImage.Create(imgDto.Url, imgDto.AltText, imgDto.SortOrder));
         }

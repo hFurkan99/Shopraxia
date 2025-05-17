@@ -1,10 +1,13 @@
-﻿namespace Catalog.Variants.ValueObjects;
+﻿namespace Catalog.ProductVariants.Models;
 
 public class ProductImage : Entity<Guid>
 {
     public string Url { get; set; } = default!;
     public string AltText { get; set; } = default!;
     public int SortOrder { get; set; }
+
+    public Guid ProductVariantId { get; set; }
+    //public ProductVariant ProductVariant { get; set; } = null!;
 
     private ProductImage(string url, string altText, int sortOrder)
     {
