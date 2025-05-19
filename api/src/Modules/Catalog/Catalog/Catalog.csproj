@@ -20,11 +20,6 @@
     <Folder Include="Categories\Events\" />
     <Folder Include="Categories\Exceptions\" />
     <Folder Include="Categories\Features\" />
-    <Folder Include="Products\Features\GetProducts\" />
-    <Folder Include="Products\Features\GetProductById\" />
-    <Folder Include="Products\Features\GetProductBySlug\" />
-    <Folder Include="Products\Features\DeleteProduct\" />
-    <Folder Include="Products\Features\GetProductVariants\" />
     <Folder Include="ProductVariants\EventHandlers\" />
     <Folder Include="ProductVariants\Events\" />
     <Folder Include="ProductVariants\Exceptions\" />

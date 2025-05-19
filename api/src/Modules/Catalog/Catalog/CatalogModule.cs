@@ -1,4 +1,5 @@
 ﻿using Catalog.Data.Seed;
+using Catalog.Mappings;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,10 @@ public static class CatalogModule
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
+        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddDbContext<CatalogDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
@@ -24,6 +29,8 @@ public static class CatalogModule
         });
 
         services.AddScoped<IDataSeeder, CatalogDataSeeder>();
+
+        MapsterConfig.RegisterMappings();
 
         return services;
     }

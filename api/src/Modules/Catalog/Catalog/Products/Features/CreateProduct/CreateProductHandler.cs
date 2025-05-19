@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Products.Features.CreateProduct;
 
-internal class CreateProductHandler(CatalogDbContext dbContext)
+internal class CreateProductHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(
@@ -9,8 +9,8 @@ internal class CreateProductHandler(CatalogDbContext dbContext)
     {
         var productPayload = command.ProductPayload;
         var product = CreateNewProduct(productPayload);
-        dbContext.Products.Add(product);
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await unitOfWork.Products.AddAsync(product, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new CreateProductResult(product.Id);
     }

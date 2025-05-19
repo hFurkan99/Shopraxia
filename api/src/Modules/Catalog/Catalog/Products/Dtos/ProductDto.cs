@@ -8,5 +8,5 @@ public record ProductDto(
     float Rating,
     Guid CategoryId,
     Guid BrandId,
-    List<ProductVariantDto> VariantDtos
+    List<ProductVariantDto> Variants
 );
