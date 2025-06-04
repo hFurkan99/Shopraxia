@@ -3,7 +3,8 @@
 internal class UpdateProductHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
-    public async Task<UpdateProductResult> Handle(UpdateProductCommand command, 
+    public async Task<UpdateProductResult> Handle(
+        UpdateProductCommand command, 
         CancellationToken cancellationToken)
     {
         var product = await unitOfWork.Products.

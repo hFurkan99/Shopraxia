@@ -1,4 +1,7 @@
-﻿using Catalog.Data.Seed;
+﻿using Catalog.Data.Repositories.Brands;
+using Catalog.Data.Repositories.Categories;
+using Catalog.Data.Repositories.Products;
+using Catalog.Data.Seed;
 using Catalog.Mappings;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +23,8 @@ public static class CatalogModule
 
         services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddDbContext<CatalogDbContext>((sp, options) =>

@@ -9,4 +9,32 @@ public class Category : Aggregate<Guid>
     public string Description { get; set; } = default!;
 
     public IReadOnlyList<Product> Products => _products.AsReadOnly();
+
+    private Category() { }
+
+    public static Category Create(CreateCategoryPayload categoryPayload)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(categoryPayload.Name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(categoryPayload.Slug);
+
+        var category = new Category
+        {
+            Id = Guid.NewGuid(),
+            Name = categoryPayload.Name,
+            Slug = categoryPayload.Slug,
+            Description = categoryPayload.Description
+        };
+
+        return category;
+    }
+
+    public void Update(UpdateCategoryPayload categoryPayload)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(categoryPayload.Name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(categoryPayload.Slug);
+
+        Name = categoryPayload.Name;
+        Slug = categoryPayload.Slug;
+        Description = categoryPayload.Description;
+    }
 }

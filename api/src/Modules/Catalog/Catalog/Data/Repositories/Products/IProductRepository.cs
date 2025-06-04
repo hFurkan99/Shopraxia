@@ -1,8 +1,9 @@
-﻿namespace Catalog.Data.Repositories;
+﻿namespace Catalog.Data.Repositories.Products;
 
 public interface IProductRepository : IGenericRepository<Product, Guid>
 {
-    Task<(List<Product> Data, int TotalCount)> GetFilteredProductsAsync(GetProductsPayload payload,
+    Task<(List<Product> Data, int TotalCount)> GetFilteredProductsAsync(
+        GetProductsPayload payload,
         CancellationToken cancellationToken);
 
     Task<Product?> GetProductWithVariantsById(Guid productId, CancellationToken cancellationToken);

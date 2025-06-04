@@ -1,7 +1,6 @@
 ﻿namespace Catalog.Products.Features.GetProductBySlug;
 
 //public record GetProductBySlugRequest(string Slug);
-
 public record GetProductBySlugResponse(ProductDto Product);
 
 public class GetProductBySlugEndpoint : ICarterModule
@@ -10,14 +9,15 @@ public class GetProductBySlugEndpoint : ICarterModule
     {
         app.MapGet("/products/slug/{slug}", async (string slug, ISender sender) =>
         {
-            var result = await sender.Send(new GetProductBySlugQuery(slug));
+            var query = new GetProductBySlugQuery(slug);
+            var result = await sender.Send(query);
             var response = result.Adapt<GetProductBySlugResponse>();
-
             return Results.Ok(response);
         })
         .WithName("GetProductBySlug")
         .Produces<GetProductBySlugResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Get Product By Slug")
         .WithDescription("Get Product By Slug");
     }

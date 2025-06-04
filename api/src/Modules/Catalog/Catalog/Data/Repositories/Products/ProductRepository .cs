@@ -1,4 +1,4 @@
-﻿namespace Catalog.Data.Repositories;
+﻿namespace Catalog.Data.Repositories.Products;
 
 public class ProductRepository(CatalogDbContext context)
     : GenericRepository<Product, Guid>(context), IProductRepository

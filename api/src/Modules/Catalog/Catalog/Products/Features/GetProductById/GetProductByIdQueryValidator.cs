@@ -1,6 +1,7 @@
 ﻿namespace Catalog.Products.Features.GetProductById;
 
-public class GetProductByIdQueryValidator : AbstractValidator<GetProductByIdQuery>
+public class GetProductByIdQueryValidator 
+    : AbstractValidator<GetProductByIdQuery>
 {
     public GetProductByIdQueryValidator()
     {

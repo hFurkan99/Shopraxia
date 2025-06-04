@@ -1,6 +1,7 @@
 ﻿namespace Catalog.Products.Features.GetProductBySlug;
 
-public class GetProductBySlugQueryValidator : AbstractValidator<GetProductBySlugQuery>
+public class GetProductBySlugQueryValidator 
+    : AbstractValidator<GetProductBySlugQuery>
 {
     public GetProductBySlugQueryValidator()
     {

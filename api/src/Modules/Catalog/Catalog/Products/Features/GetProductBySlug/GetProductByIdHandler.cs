@@ -3,7 +3,8 @@
 internal class GetProductByIdHandler(IUnitOfWork unitOfWork)
     : IQueryHandler<GetProductBySlugQuery, GetProductBySlugResult>
 {
-    public async Task<GetProductBySlugResult> Handle(GetProductBySlugQuery query, 
+    public async Task<GetProductBySlugResult> Handle(
+        GetProductBySlugQuery query, 
         CancellationToken cancellationToken)
     {
         var product = await unitOfWork.Products
