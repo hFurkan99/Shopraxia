@@ -34,3 +34,4 @@ global using Catalog.Brands.Dtos;
 global using Catalog.Categories.Payloads;
 global using Catalog.Categories.Exceptions;
 global using Catalog.Categories.Dtos;
+global using Shared.Guards;

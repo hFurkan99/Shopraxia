@@ -23,8 +23,8 @@ public class Product : Aggregate<Guid>
         ArgumentException.ThrowIfNullOrWhiteSpace(productPayload.Name);
         ArgumentException.ThrowIfNullOrWhiteSpace(productPayload.Slug);
 
-        //GuidGuard.AgainstEmptyGuid(productPayload.CategoryId, nameof(productPayload.CategoryId));
-        //GuidGuard.AgainstEmptyGuid(productPayload.BrandId, nameof(productPayload.BrandId));
+        GuidGuard.AgainstEmptyGuid(productPayload.CategoryId, nameof(productPayload.CategoryId));
+        GuidGuard.AgainstEmptyGuid(productPayload.BrandId, nameof(productPayload.BrandId));
 
         if (productPayload.Variants == null || productPayload.Variants.Count == 0)
             throw new ArgumentException("Product must have at least one variant.");
@@ -55,8 +55,8 @@ public class Product : Aggregate<Guid>
         ArgumentException.ThrowIfNullOrWhiteSpace(productPayload.Name);
         ArgumentException.ThrowIfNullOrWhiteSpace(productPayload.Slug);
 
-        //GuidGuard.AgainstEmptyGuid(productPayload.CategoryId, nameof(productPayload.CategoryId));
-        //GuidGuard.AgainstEmptyGuid(productPayload.BrandId, nameof(productPayload.BrandId));
+        GuidGuard.AgainstEmptyGuid(productPayload.CategoryId, nameof(productPayload.CategoryId));
+        GuidGuard.AgainstEmptyGuid(productPayload.BrandId, nameof(productPayload.BrandId));
 
         Name = productPayload.Name;
         Slug = productPayload.Slug;
