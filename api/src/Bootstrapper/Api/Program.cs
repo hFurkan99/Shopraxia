@@ -19,6 +19,17 @@ builder.Services
 builder.Services
     .AddExceptionHandler<CustomExceptionHandler>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontendDev", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Configure the HTTP request pipeline.
@@ -29,6 +40,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowFrontendDev");
 
 app.MapGet("/", context =>
 {
