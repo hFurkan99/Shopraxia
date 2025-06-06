@@ -12,7 +12,7 @@ const LayoutWrapper = styled.div`
 const Main = styled.main`
   flex: 1;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 3rem 1.5rem;
   display: flex;

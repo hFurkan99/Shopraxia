@@ -1,8 +1,12 @@
-﻿using Catalog.Data.Repositories.Brands;
-using Catalog.Data.Repositories.Categories;
-using Catalog.Data.Repositories.Products;
-using Catalog.Data.Seed;
-using Catalog.Mappings;
+﻿using Catalog.Domain.AttributeAggregate;
+using Catalog.Domain.BrandAggregate;
+using Catalog.Domain.CategoryAggregate;
+using Catalog.Domain.Common;
+using Catalog.Domain.ProductAggregate;
+using Catalog.Infrastructure.Mappings;
+using Catalog.Infrastructure.Persistence;
+using Catalog.Infrastructure.Persistence.Seed;
+using Catalog.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +29,7 @@ public static class CatalogModule
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IAttributeRepository, AttributeRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddDbContext<CatalogDbContext>((sp, options) =>

@@ -10,6 +10,16 @@ const productsApi = {
     const response = await axiosClient.get("/products", { params: payload });
     return response.data.products;
   },
+
+  getProductById: async (id: string): Promise<Product> => {
+    const response = await axiosClient.get(`/products/${id}`);
+    return response.data.product;
+  },
+
+  getProductBySlug: async (slug: string): Promise<Product> => {
+    const response = await axiosClient.get(`/products/slug/${slug}`);
+    return response.data.product;
+  },
 };
 
 export default productsApi;

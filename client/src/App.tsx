@@ -3,8 +3,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import GlobalStyles from "./styles/GlobalStyles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer, Flip } from "react-toastify";
+
 import Products from "./features/products/pages/Products";
 import AppLayout from "./ui/AppLayout";
+import ProductDetails from "./features/products/components/ProductDetails";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +27,7 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index element={<Navigate replace to="products" />} />
               <Route path="products" element={<Products />} />
+              <Route path="products/:slug" element={<ProductDetails />} />
             </Route>
           </Routes>
         </BrowserRouter>

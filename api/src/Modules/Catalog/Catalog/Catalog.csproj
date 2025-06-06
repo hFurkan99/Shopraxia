@@ -12,14 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Brands\EventHandlers\" />
-    <Folder Include="Brands\Events\" />
-    <Folder Include="Categories\EventHandlers\" />
-    <Folder Include="Categories\Events\" />
-    <Folder Include="ProductVariants\EventHandlers\" />
-    <Folder Include="ProductVariants\Events\" />
-    <Folder Include="ProductVariants\Exceptions\" />
-    <Folder Include="ProductVariants\Features\" />
+    <Folder Include="Domain\AttributeAggregate\Dtos\" />
+    <Folder Include="Domain\Common\IntegrationEventHandlers\" />
+    <Folder Include="Features\Variants\" />
+    <Folder Include="IntegrationEventHandlers\" />
   </ItemGroup>
 
 </Project>

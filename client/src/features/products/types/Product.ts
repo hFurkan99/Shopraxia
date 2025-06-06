@@ -1,3 +1,5 @@
+import type { Brand } from "./Brand";
+import type { Category } from "./Category";
 import type { ProductVariant } from "./ProductVariant";
 
 export interface Product {
@@ -6,7 +8,7 @@ export interface Product {
   slug: string;
   description: string;
   rating: number;
-  categoryId: string;
-  brandId: string;
+  category: Category;
+  brand: Brand;
   variants: ProductVariant[];
 }

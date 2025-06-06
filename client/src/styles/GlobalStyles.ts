@@ -66,7 +66,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  background-color: #f0f2f5;
+  background-color: #ffffff;
   font-size: 1.6rem;
   line-height: 1.5;
   min-height: 100vh;
