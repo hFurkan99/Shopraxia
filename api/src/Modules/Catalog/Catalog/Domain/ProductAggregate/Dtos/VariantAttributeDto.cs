@@ -1,5 +1,5 @@
 ﻿namespace Catalog.Domain.ProductAggregate.Dtos;
 
-public record AttributeDto(
+public record VariantAttributeDto(
     string Name,
     string Value);

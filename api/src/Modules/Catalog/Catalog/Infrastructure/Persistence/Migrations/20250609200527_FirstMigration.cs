@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Catalog.Data.Migrations
+namespace Catalog.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class FirstMigration : Migration
@@ -15,6 +15,23 @@ namespace Catalog.Data.Migrations
                 name: "catalog");
 
             migrationBuilder.CreateTable(
+                name: "Attributes",
+                schema: "catalog",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attributes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Brands",
                 schema: "catalog",
                 columns: table => new
@@ -22,7 +39,7 @@ namespace Catalog.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Slug = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -41,7 +58,7 @@ namespace Catalog.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Slug = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -50,6 +67,38 @@ namespace Catalog.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoryAttribute",
+                schema: "catalog",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    AttributeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryAttribute", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CategoryAttribute_Attributes_AttributeId",
+                        column: x => x.AttributeId,
+                        principalSchema: "catalog",
+                        principalTable: "Attributes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoryAttribute_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalSchema: "catalog",
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,8 +111,8 @@ namespace Catalog.Data.Migrations
                     Slug = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     Rating = table.Column<float>(type: "real", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uuid", nullable: true),
-                    BrandId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BrandId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -96,7 +145,7 @@ namespace Catalog.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Sku = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    Stock = table.Column<int>(type: "integer", nullable: false),
+                    Stock = table.Column<long>(type: "bigint", nullable: false),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
@@ -116,33 +165,7 @@ namespace Catalog.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductAttributes",
-                schema: "catalog",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: false),
-                    ProductVariantId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductAttributes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductAttributes_ProductVariants_ProductVariantId",
-                        column: x => x.ProductVariantId,
-                        principalSchema: "catalog",
-                        principalTable: "ProductVariants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductImages",
+                name: "Images",
                 schema: "catalog",
                 columns: table => new
                 {
@@ -150,7 +173,7 @@ namespace Catalog.Data.Migrations
                     Url = table.Column<string>(type: "text", nullable: false),
                     AltText = table.Column<string>(type: "text", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    ProductVariantId = table.Column<Guid>(type: "uuid", nullable: false),
+                    VariantId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -158,10 +181,44 @@ namespace Catalog.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductImages", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductImages_ProductVariants_ProductVariantId",
-                        column: x => x.ProductVariantId,
+                        name: "FK_Images_ProductVariants_VariantId",
+                        column: x => x.VariantId,
+                        principalSchema: "catalog",
+                        principalTable: "ProductVariants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VariantAttribute",
+                schema: "catalog",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    VariantId = table.Column<Guid>(type: "uuid", nullable: false),
+                    AttributeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VariantAttribute", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VariantAttribute_Attributes_AttributeId",
+                        column: x => x.AttributeId,
+                        principalSchema: "catalog",
+                        principalTable: "Attributes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VariantAttribute_ProductVariants_VariantId",
+                        column: x => x.VariantId,
                         principalSchema: "catalog",
                         principalTable: "ProductVariants",
                         principalColumn: "Id",
@@ -169,16 +226,22 @@ namespace Catalog.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttributes_ProductVariantId",
+                name: "IX_CategoryAttribute_AttributeId",
                 schema: "catalog",
-                table: "ProductAttributes",
-                column: "ProductVariantId");
+                table: "CategoryAttribute",
+                column: "AttributeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductImages_ProductVariantId",
+                name: "IX_CategoryAttribute_CategoryId",
                 schema: "catalog",
-                table: "ProductImages",
-                column: "ProductVariantId");
+                table: "CategoryAttribute",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_VariantId",
+                schema: "catalog",
+                table: "Images",
+                column: "VariantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandId",
@@ -197,17 +260,37 @@ namespace Catalog.Data.Migrations
                 schema: "catalog",
                 table: "ProductVariants",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariantAttribute_AttributeId",
+                schema: "catalog",
+                table: "VariantAttribute",
+                column: "AttributeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariantAttribute_VariantId",
+                schema: "catalog",
+                table: "VariantAttribute",
+                column: "VariantId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProductAttributes",
+                name: "CategoryAttribute",
                 schema: "catalog");
 
             migrationBuilder.DropTable(
-                name: "ProductImages",
+                name: "Images",
+                schema: "catalog");
+
+            migrationBuilder.DropTable(
+                name: "VariantAttribute",
+                schema: "catalog");
+
+            migrationBuilder.DropTable(
+                name: "Attributes",
                 schema: "catalog");
 
             migrationBuilder.DropTable(

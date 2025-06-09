@@ -1,7 +1,9 @@
-﻿using Catalog.Domain.Common;
+﻿namespace Catalog.Features.Attributes.DeleteAttribute;
 
-namespace Catalog.Features.Attributes.DeleteAttribute;
+public record DeleteAttributeCommand(Guid AttributeId)
+    : ICommand<DeleteAttributeResult>;
 
+public record DeleteAttributeResult(bool IsSuccess);
 internal class DeleteAttributeHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<DeleteAttributeCommand, DeleteAttributeResult>
 {

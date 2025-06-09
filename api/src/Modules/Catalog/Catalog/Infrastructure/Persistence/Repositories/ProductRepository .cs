@@ -1,49 +1,54 @@
-﻿using Catalog.Domain.ProductAggregate;
-using Catalog.Infrastructure.Persistence;
-
-namespace Catalog.Infrastructure.Repositories;
+﻿namespace Catalog.Infrastructure.Persistence.Repositories;
 
 public class ProductRepository(CatalogDbContext context)
     : GenericRepository<Product, Guid>(context), IProductRepository
 {
-    public async Task<(List<Product> Data, int TotalCount)> GetFilteredProductsAsync(GetProductsPayload payload, 
-        CancellationToken cancellationToken)
+    public async Task<(List<Product> Data, int TotalCount)> GetFilteredProductsAsync(
+        Guid? brandId,
+        Guid? categoryId,
+        decimal? minPrice,
+        decimal? maxPrice,
+        string? search,
+        string? sortBy,
+        string? sortOrder,
+        int page = 1,
+        int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
         var query = _context.Products
             .Include(p => p.Category)
             .Include(p => p.Brand)
             .Include(p => p.Variants.Where(v => v.Stock > 0))
-                .ThenInclude(v => v.Attributes)
+                .ThenInclude(v => v.VariantAttributes)
             .Include(p => p.Variants)
                 .ThenInclude(v => v.Images)
             .Where(p => p.Variants.Any(v => v.Stock > 0))
             .AsQueryable();
 
-        if (payload.CategoryId.HasValue)
-            query = query.Where(p => p.CategoryId == payload.CategoryId);
+        if (categoryId.HasValue)
+            query = query.Where(p => p.CategoryId == categoryId);
 
-        if (payload.BrandId.HasValue)
-            query = query.Where(p => p.BrandId == payload.BrandId);
+        if (brandId.HasValue)
+            query = query.Where(p => p.BrandId == brandId);
 
-        if (payload.MinPrice.HasValue)
-            query = query.Where(p => p.Variants.Any(v => v.Price >= payload.MinPrice.Value));
+        if (minPrice.HasValue)
+            query = query.Where(p => p.Variants.Any(v => v.Price >= minPrice.Value));
 
-        if (payload.MaxPrice.HasValue)
-            query = query.Where(p => p.Variants.Any(v => v.Price <= payload.MaxPrice.Value));
+        if (maxPrice.HasValue)
+            query = query.Where(p => p.Variants.Any(v => v.Price <= maxPrice.Value));
 
-        if (!string.IsNullOrWhiteSpace(payload.Search))
+        if (!string.IsNullOrWhiteSpace(search))
         {
-            var search = payload.Search.ToLower();
             query = query.Where(p =>
-                p.Name.ToLower().Contains(search) ||
-                p.Slug.ToLower().Contains(search) ||
-                p.Description.ToLower().Contains(search));
+                p.Name.ToLower().Contains(search.ToLower()) ||
+                p.Slug.ToLower().Contains(search.ToLower()) ||
+                p.Description.ToLower().Contains(search.ToLower()));
         }
 
-        if (!string.IsNullOrWhiteSpace(payload.SortBy))
+        if (!string.IsNullOrWhiteSpace(sortBy))
         {
-            bool ascending = payload.SortOrder?.ToLower() != "desc";
-            query = payload.SortBy.ToLower() switch
+            bool ascending = sortOrder?.ToLower() != "desc";
+            query = sortBy.ToLower() switch
             {
                 "price" => ascending
                     ? query.OrderBy(p => p.Variants.Min(v => v.Price))
@@ -62,8 +67,8 @@ public class ProductRepository(CatalogDbContext context)
         var totalCount = await query.CountAsync(cancellationToken);
 
         var items = await query
-            .Skip((payload.Page - 1) * payload.PageSize)
-            .Take(payload.PageSize)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
 
         return (items, totalCount);
@@ -75,7 +80,7 @@ public class ProductRepository(CatalogDbContext context)
             .Include(p => p.Category)
             .Include(p => p.Brand)
             .Include(p => p.Variants)
-                .ThenInclude(v => v.Attributes)
+                .ThenInclude(v => v.VariantAttributes)
             .Include(p => p.Variants)
                 .ThenInclude(v => v.Images)
             .AsNoTracking()
@@ -88,7 +93,7 @@ public class ProductRepository(CatalogDbContext context)
             .Include(p => p.Category)
             .Include(p => p.Brand)
             .Include(p => p.Variants)
-                .ThenInclude(v => v.Attributes)
+                .ThenInclude(v => v.VariantAttributes)
             .Include(p => p.Variants)
                 .ThenInclude(v => v.Images)
             .AsNoTracking()

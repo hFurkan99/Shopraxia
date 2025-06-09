@@ -1,6 +1,11 @@
 namespace Catalog.Features.Brands.UpdateBrand;
 
-public record UpdateBrandRequest(UpdateBrandPayload BrandPayload);
+public record UpdateBrandRequest(
+    Guid Id,
+    string Name,
+    string Slug,
+    string? Description);
+
 public record UpdateBrandResponse(bool IsSuccess);
 
 public class UpdateBrandEndpoint : ICarterModule

@@ -1,6 +1,11 @@
 namespace Catalog.Features.Categories.UpdateCategory;
 
-public record UpdateCategoryRequest(UpdateCategoryPayload CategoryPayload);
+public record UpdateCategoryRequest(
+    Guid Id,
+    string Name,
+    string Slug,
+    string? Description);
+
 public record UpdateCategoryResponse(bool IsSuccess);
 
 public class UpdateCategoryEndpoint : ICarterModule

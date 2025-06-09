@@ -1,7 +1,9 @@
-﻿using Catalog.Domain.Common;
-using Attribute = Catalog.Domain.AttributeAggregate.Attribute;
+﻿namespace Catalog.Features.Attributes.CreateAttribute;
 
-namespace Catalog.Features.Attributes.CreateAttribute;
+public record CreateAttributeCommand(string Name, Guid CategoryId)
+    : ICommand<CreateAttributeResult>;
+
+public record CreateAttributeResult(Guid Id);
 
 public class CreateAttributeHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<CreateAttributeCommand, CreateAttributeResult>
@@ -10,15 +12,14 @@ public class CreateAttributeHandler(IUnitOfWork unitOfWork)
         CreateAttributeCommand command,
         CancellationToken cancellationToken)
     {
-        var attributePayload = command.AttributePayload;
-        var newAttribute = CreateNewAttribute(attributePayload);
+        var newAttribute = CreateNewAttribute(command.Name, command.CategoryId);
         await unitOfWork.Attributes.AddAsync(newAttribute, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return new CreateAttributeResult(newAttribute.Id);
     }
-    private static Attribute CreateNewAttribute(CreateAttributePayload attributePayload)
+    private static Attribute CreateNewAttribute(string name, Guid categoryId)
     {
-        var attribute = Attribute.Create(attributePayload);
+        var attribute = Attribute.Create(name, categoryId);
         return attribute;
     }
 }

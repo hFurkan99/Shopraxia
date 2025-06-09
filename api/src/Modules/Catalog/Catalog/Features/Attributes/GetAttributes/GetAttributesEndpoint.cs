@@ -1,9 +1,7 @@
-using Catalog.Attributes.Features.GetAttributes;
-
 namespace Catalog.Features.Attributes.GetAttributes;
 
 public record GetAttributesRequest();
-public record GetAttributesResponse(Guid Id, string Name);
+public record GetAttributesResponse(List<AttributeDto> Attributes);
 
 public class GetAttributesEndpoint : ICarterModule
 {
@@ -13,7 +11,7 @@ public class GetAttributesEndpoint : ICarterModule
         {
             var query = new GetAttributesQuery();
             var result = await sender.Send(query);
-            var response = new GetAttributesResponse(result.Attributes);
+            var response = result.Adapt<GetAttributesResponse>();
             return Results.Ok(response);
         })
         .WithName("GetAttributes")

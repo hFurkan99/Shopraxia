@@ -1,6 +1,10 @@
 ﻿namespace Catalog.Features.Brands.CreateBrand;
 
-public record CreateBrandRequest(CreateBrandPayload BrandPayload);
+public record CreateBrandRequest(
+    string Name,
+    string Slug,
+    string? Description);
+
 public record CreateBrandResponse(Guid Id);
 
 public class CreateBrandEndpoint : ICarterModule

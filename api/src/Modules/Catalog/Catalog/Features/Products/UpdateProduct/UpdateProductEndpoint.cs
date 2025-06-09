@@ -1,6 +1,13 @@
 ﻿namespace Catalog.Features.Products.UpdateProduct;
 
-public record UpdateProductRequest(UpdateProductPayload ProductPayload);
+public record UpdateProductRequest(
+    Guid Id,
+    string Name,
+    string Slug,
+    string Description,
+    float Rating,
+    Guid CategoryId,
+    Guid BrandId);
 
 public record UpdateProductResponse(bool IsSuccess);
 

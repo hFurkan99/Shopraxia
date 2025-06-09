@@ -1,6 +1,12 @@
-using Catalog.Domain.Common;
-
 namespace Catalog.Features.Categories.CreateCategory;
+
+public record CreateCategoryCommand(
+    string Name,
+    string Slug,
+    string? Description)
+    : ICommand<CreateCategoryResult>;
+
+public record CreateCategoryResult(Guid Id);
 
 internal class CreateCategoryHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<CreateCategoryCommand, CreateCategoryResult>
@@ -9,16 +15,21 @@ internal class CreateCategoryHandler(IUnitOfWork unitOfWork)
         CreateCategoryCommand command, 
         CancellationToken cancellationToken)
     {
-        var categoryPayload = command.CategoryPayload;
-        var category = CreateNewCategory(categoryPayload);
+        var category = CreateNewCategory(command.Name, command.Slug,
+            command.Description);
+
         await unitOfWork.Categories.AddAsync(category, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
         return new CreateCategoryResult(category.Id);
     }
 
-    private static Category CreateNewCategory(CreateCategoryPayload categoryPayload)
+    private static Category CreateNewCategory(
+        string name,
+        string slug,
+        string? description)
     {
-        var category = Category.Create(categoryPayload);
+        var category = Category.Create(name, slug, description);
         return category;
     }
 }

@@ -1,6 +1,9 @@
-using Catalog.Domain.Common;
-
 namespace Catalog.Features.Categories.DeleteCategory;
+
+public record DeleteCategoryCommand(Guid CategoryId)
+    : ICommand<DeleteCategoryResult>;
+
+public record DeleteCategoryResult(bool IsSuccess);
 
 internal class DeleteCategoryHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<DeleteCategoryCommand, DeleteCategoryResult>

@@ -1,6 +1,9 @@
-using Catalog.Domain.Common;
-
 namespace Catalog.Features.Attributes.GetAttributes;
+
+public record GetAttributesQuery()
+    : IQuery<GetAttributesResult>;
+
+public record GetAttributesResult(List<AttributeDto> Attributes);
 
 internal class GetAttributesHandler(IUnitOfWork unitOfWork)
     : IQueryHandler<GetAttributesQuery, GetAttributesResult>
@@ -12,8 +15,8 @@ internal class GetAttributesHandler(IUnitOfWork unitOfWork)
         var attributes = await unitOfWork.Attributes
             .GetAllAsync(cancellationToken);
 
-        var attributeDtos = attributes.Adapt<GetAttributesResult>();
+        var attributeDtos = attributes.Adapt<List<AttributeDto>>();
 
-        return attributeDtos;
+        return new GetAttributesResult(attributeDtos);
     }
 }   

@@ -1,17 +1,25 @@
-﻿using Catalog.Products.Features.GetProducts;
+﻿namespace Catalog.Features.Products.GetProducts;
 
-namespace Catalog.Features.Products.GetProducts;
+public record GetProductsRequest(
+    Guid? BrandId,
+    Guid? CategoryId,
+    decimal? MinPrice,
+    decimal? MaxPrice,
+    string? Search,
+    string? SortBy,
+    string? SortOrder,
+    int Page = 1,
+    int PageSize = 10);
 
-public record GetProductsRequest(GetProductsPayload Payload);
 public record GetProductsResponse(PaginatedResult<ProductDto> Products);
 
 public class GetProductsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products", async ([AsParameters] GetProductsPayload payload, ISender sender) =>
+        app.MapGet("/products", async ([AsParameters] GetProductsRequest request, ISender sender) =>
         {
-            var query = new GetProductsQuery(payload);
+            var query = request.Adapt<GetProductsQuery>();
             var result = await sender.Send(query);
             var response = result.Adapt<GetProductsResponse>();
             return Results.Ok(response);

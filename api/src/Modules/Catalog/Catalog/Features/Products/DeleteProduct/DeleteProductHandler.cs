@@ -1,6 +1,9 @@
-﻿using Catalog.Domain.Common;
+﻿namespace Catalog.Features.Products.DeleteProduct;
 
-namespace Catalog.Features.Products.DeleteProduct;
+public record DeleteProductCommand(Guid ProductId)
+    : ICommand<DeleteProductResult>;
+
+public record DeleteProductResult(bool IsSuccess);
 
 public class DeleteProductHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<DeleteProductCommand, DeleteProductResult>

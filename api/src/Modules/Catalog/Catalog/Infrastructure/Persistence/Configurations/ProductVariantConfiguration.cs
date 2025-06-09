@@ -18,14 +18,14 @@ public class ProductVariantConfiguration
         builder.Property(pv => pv.Stock)
             .IsRequired();
 
-        builder.HasMany(pv => pv.Attributes)
-            .WithOne(pa => pa.ProductVariant)
-            .HasForeignKey(pa => pa.ProductVariantId)
+        builder.HasMany(pv => pv.VariantAttributes)
+            .WithOne(pa => pa.Variant)
+            .HasForeignKey(pa => pa.VariantId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(pv => pv.Images)
             .WithOne()
-            .HasForeignKey(pa => pa.ProductVariantId)
+            .HasForeignKey(pa => pa.VariantId)
             .OnDelete(DeleteBehavior.Cascade);
 
 

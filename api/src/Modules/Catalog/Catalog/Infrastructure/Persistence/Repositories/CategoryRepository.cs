@@ -1,7 +1,4 @@
-﻿using Catalog.Domain.CategoryAggregate;
-using Catalog.Infrastructure.Persistence;
-
-namespace Catalog.Infrastructure.Repositories;
+﻿namespace Catalog.Infrastructure.Persistence.Repositories;
 
 public class CategoryRepository(CatalogDbContext context)
     : GenericRepository<Category, Guid>(context), ICategoryRepository
@@ -14,22 +11,27 @@ public class CategoryRepository(CatalogDbContext context)
             .FirstOrDefaultAsync(b => b.Slug == categorySlug, cancellationToken);
     }
 
-    public async Task<(List<Category> Data, int TotalCount)> GetFilteredCategoriesAsync(
-        GetCategoriesPayload payload, 
+    public async Task<(List<CategoryDto> Data, int TotalCount)> GetFilteredCategoriesAsync(
+        int page = 1,
+        int pageSize = 10,
+        string? search = null,
+        string? sortBy = null,
+        string? sortOrder = null, 
         CancellationToken cancellationToken = default)
     {
         var query = _dbSet.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(payload.Search))
+        if (!string.IsNullOrWhiteSpace(search))
         {
-            var search = payload.Search.ToLower();
-            query = query.Where(b => b.Name.ToLower().Contains(search) || b.Slug.ToLower().Contains(search));
+            query = query.Where(
+                b => b.Name.ToLower().Contains(search.ToLower()) 
+                || b.Slug.ToLower().Contains(search.ToLower()));
         }
 
-        if (!string.IsNullOrWhiteSpace(payload.SortBy))
+        if (!string.IsNullOrWhiteSpace(sortBy))
         {
-            bool ascending = payload.SortOrder?.ToLower() != "desc";
-            query = payload.SortBy.ToLower() switch
+            bool ascending = sortOrder?.ToLower() != "desc";
+            query = sortBy.ToLower() switch
             {
                 "name" => ascending ? query.OrderBy(b => b.Name) : query.OrderByDescending(b => b.Name),
                 _ => query.OrderBy(b => b.Id)
@@ -43,10 +45,13 @@ public class CategoryRepository(CatalogDbContext context)
         var totalCount = await query.CountAsync(cancellationToken);
 
         var items = await query
-            .Skip((payload.Page - 1) * payload.PageSize)
-            .Take(payload.PageSize)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
 
-        return (items, totalCount);
+        var itemsDto = items.Select(c => new CategoryDto(
+            c.Id, c.Name, c.Slug, c.Description)).ToList();
+
+        return (itemsDto, totalCount);
     }
 }

@@ -1,7 +1,4 @@
-﻿using Catalog.Domain.Common;
-using Catalog.Infrastructure.Persistence;
-
-namespace Catalog.Infrastructure.Repositories;
+﻿namespace Catalog.Infrastructure.Persistence.Repositories;
 
 public class GenericRepository<T, TId> : IGenericRepository<T, TId> 
     where T : Entity<TId>

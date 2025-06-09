@@ -1,7 +1,9 @@
-using Catalog.Domain.Common;
-using Attribute = Catalog.Domain.AttributeAggregate.Attribute
-    ;
 namespace Catalog.Features.Attributes.UpdateAttribute;
+
+public record UpdateAttributeCommand(Guid Id, string Name, Guid CategoryId)
+    : ICommand<UpdateAttributeResult>;
+
+public record UpdateAttributeResult(bool IsSuccess);
 
 internal class UpdateAttributeHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<UpdateAttributeCommand, UpdateAttributeResult>
@@ -11,10 +13,10 @@ internal class UpdateAttributeHandler(IUnitOfWork unitOfWork)
         CancellationToken cancellationToken)
     {
         var attribute = await unitOfWork.Attributes
-            .GetByIdAsync(command.AttributePayload.Id, cancellationToken)
-            ?? throw new AttributeNotFoundException(command.AttributePayload.Id);
+            .GetByIdAsync(command.Id, cancellationToken)
+            ?? throw new AttributeNotFoundException(command.Id);
 
-        UpdateAttribute(attribute, command.AttributePayload);
+        UpdateAttribute(attribute, command.Name, command.CategoryId);
 
         unitOfWork.Attributes.Update(attribute);
         await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -22,8 +24,8 @@ internal class UpdateAttributeHandler(IUnitOfWork unitOfWork)
         return new UpdateAttributeResult(true);
     }
 
-    private static void UpdateAttribute(Attribute attribute, UpdateAttributePayload attributePayload)
+    private static void UpdateAttribute(Attribute attribute, string name, Guid categoryId)
     {
-        attribute.Update(attributePayload);
+        attribute.Update(name, categoryId);
     }
 }

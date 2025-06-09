@@ -1,5 +1,3 @@
-using Catalog.Attributes.Features.GetAttributeById;
-
 namespace Catalog.Features.Attributes.GetAttributeById;
 
 //public record GetAttributeByIdRequest(Guid AttributeId);

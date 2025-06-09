@@ -5,17 +5,17 @@ public class CreateCategoryCommandValidator
 {
     public CreateCategoryCommandValidator()
     {
-        RuleFor(x => x.CategoryPayload.Name)
+        RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(200)
             .WithMessage("Category name must not be empty and cannot exceed 200 characters.");
 
-        RuleFor(x => x.CategoryPayload.Slug)
+        RuleFor(x => x.Slug)
             .NotEmpty()
             .MaximumLength(200)
             .WithMessage("Category slug must not be empty and cannot exceed 200 characters.");
 
-        RuleFor(x => x.CategoryPayload.Description)
+        RuleFor(x => x.Description)
             .MaximumLength(1000)
             .WithMessage("Category description cannot exceed 1000 characters.");
     }

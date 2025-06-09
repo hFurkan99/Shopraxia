@@ -1,6 +1,4 @@
-﻿using Catalog.Domain.ProductAggregate;
-
-namespace Catalog.Infrastructure.Persistence.Configurations;
+﻿namespace Catalog.Infrastructure.Persistence.Configurations;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
@@ -17,15 +15,16 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasMaxLength(200);
 
         builder.Property(p => p.Description)
+            .IsRequired()
             .HasMaxLength(1000);
 
         builder.Property(p => p.Rating);
 
-        //builder.Property(p => p.CategoryId)
-        //    .IsRequired();
+        builder.Property(p => p.CategoryId)
+            .IsRequired();
 
-        //builder.Property(p => p.BrandId)
-        //    .IsRequired();
+        builder.Property(p => p.BrandId)
+            .IsRequired();
 
         builder.HasMany(p => p.Variants)
             .WithOne(pv => pv.Product)
@@ -38,7 +37,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasOne(p => p.Brand)
-            .WithMany(b => b.Products)
+            .WithMany()
             .HasForeignKey(p => p.BrandId)
             .OnDelete(DeleteBehavior.SetNull);
     }

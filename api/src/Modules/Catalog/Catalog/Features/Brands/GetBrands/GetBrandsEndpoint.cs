@@ -15,17 +15,9 @@ public class GetBrandsEndpoint : ICarterModule
     {
         app.MapGet("/brands", async ([AsParameters] GetBrandsRequest request, ISender sender) =>
         {
-            var query = new GetBrandsQuery
-            {
-                Page = request.Page,
-                PageSize = request.PageSize,
-                Search = request.Search,
-                SortBy = request.SortBy,
-                SortOrder = request.SortOrder
-            };
-
+            var query = request.Adapt<GetBrandsQuery>();
             var result = await sender.Send(query);
-            var response = new GetBrandsResponse(result.Brands);
+            var response = result.Adapt<GetBrandsResponse>();
             return Results.Ok(response);
         })
         .WithName("GetBrands")

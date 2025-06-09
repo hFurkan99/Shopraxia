@@ -1,9 +1,4 @@
-﻿using Catalog.Domain.AttributeAggregate;
-using Catalog.Domain.BrandAggregate;
-using Catalog.Domain.ProductAggregate;
-using Catalog.Domain.ProductAggregate.Entities;
-
-namespace Catalog.Infrastructure.Mappings;
+﻿namespace Catalog.Infrastructure.Mappings;
 
 public static class MapsterConfig
 {
@@ -12,15 +7,15 @@ public static class MapsterConfig
         TypeAdapterConfig<Product, ProductDto>.NewConfig()
             .Map(dest => dest.Variants, src => src.Variants
                 .OrderBy(v => v.Price)
-                .Select(v => v.Adapt<ProductVariantDto>())
+                .Select(v => v.Adapt<VariantDto>())
                 .ToList());
 
-        TypeAdapterConfig<Variant, ProductVariantDto>.NewConfig()
-            .Map(dest => dest.Attributes, src => src.Attributes)
+        TypeAdapterConfig<Variant, VariantDto>.NewConfig()
+            .Map(dest => dest.Attributes, src => src.VariantAttributes)
             .Map(dest => dest.Images, src => src.Images);
 
-        TypeAdapterConfig<Attribute, ProductAttributeDto>.NewConfig();
-        TypeAdapterConfig<ProductImage, ProductImageDto>.NewConfig();
+        TypeAdapterConfig<Attribute, AttributeDto>.NewConfig();
+        TypeAdapterConfig<Image, ImageDto>.NewConfig();
 
         TypeAdapterConfig<Category, CategoryDto>.NewConfig();
         TypeAdapterConfig<Brand, BrandDto>.NewConfig();

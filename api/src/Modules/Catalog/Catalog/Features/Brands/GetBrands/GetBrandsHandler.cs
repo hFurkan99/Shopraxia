@@ -1,6 +1,14 @@
-using Catalog.Domain.Common;
-
 namespace Catalog.Features.Brands.GetBrands;
+
+public record GetBrandsQuery(
+    int Page = 1,
+    int PageSize = 10,
+    string? Search = null,
+    string? SortBy = null,
+    string? SortOrder = null)
+    : IQuery<GetBrandsResult>;
+
+public record GetBrandsResult(PaginatedResult<BrandDto> Brands);
 
 internal class GetBrandsHandler(IUnitOfWork unitOfWork)
     : IQueryHandler<GetBrandsQuery, GetBrandsResult>
@@ -9,16 +17,17 @@ internal class GetBrandsHandler(IUnitOfWork unitOfWork)
         GetBrandsQuery query,
         CancellationToken cancellationToken)
     {
-        var brands = await unitOfWork.Brands
-            .GetFilteredBrandsAsync(query.BrandsPayload, cancellationToken);
+        var (Data, TotalCount) = await unitOfWork.Brands
+            .GetFilteredBrandsAsync(query.Page, query.PageSize,
+            query.Search, query.SortBy, query.SortOrder, cancellationToken);
 
-        var brandDtos = brands.Data.Adapt<List<BrandDto>>();
-        var totalCount = brands.TotalCount;
+        var brandDtos = Data.Adapt<List<BrandDto>>();
+        var totalCount = TotalCount;
 
         return new GetBrandsResult(
             new PaginatedResult<BrandDto>(
-                query.BrandsPayload.Page,
-                query.BrandsPayload.PageSize,
+                query.Page,
+                query.PageSize,
                 totalCount,
                 brandDtos));
     }

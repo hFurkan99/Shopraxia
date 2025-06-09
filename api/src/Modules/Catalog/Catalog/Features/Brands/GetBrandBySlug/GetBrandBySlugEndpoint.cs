@@ -1,9 +1,11 @@
-using Catalog.Brands.Features.GetBrandBySlug;
-
 namespace Catalog.Features.Brands.GetBrandBySlug;
 
 //public record GetBrandBySlugRequest(string Slug);
-public record GetBrandBySlugResponse(Guid Id, string Name, string Slug, string Description);
+public record GetBrandBySlugResponse(
+    Guid Id, 
+    string Name, 
+    string Slug, 
+    string? Description);
 
 public class GetBrandBySlugEndpoint : ICarterModule
 {

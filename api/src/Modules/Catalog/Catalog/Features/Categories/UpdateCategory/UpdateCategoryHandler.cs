@@ -1,6 +1,13 @@
-using Catalog.Domain.Common;
-
 namespace Catalog.Features.Categories.UpdateCategory;
+
+public record UpdateCategoryCommand(
+    Guid Id,
+    string Name,
+    string Slug,
+    string? Description)
+    : ICommand<UpdateCategoryResult>;
+
+public record UpdateCategoryResult(bool IsSuccess);
 
 internal class UpdateCategoryHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<UpdateCategoryCommand, UpdateCategoryResult>
@@ -10,10 +17,11 @@ internal class UpdateCategoryHandler(IUnitOfWork unitOfWork)
         CancellationToken cancellationToken)
     {
         var category = await unitOfWork.Categories
-            .GetByIdAsync(command.CategoryPayload.Id, cancellationToken)
-            ?? throw new CategoryNotFoundException(command.CategoryPayload.Id);
+            .GetByIdAsync(command.Id, cancellationToken)
+            ?? throw new CategoryNotFoundException(command.Id);
 
-        UpdateCategory(category, command.CategoryPayload);
+        UpdateCategory(category, command.Name, 
+            command.Slug,command.Description);
 
         unitOfWork.Categories.Update(category);
         await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -21,8 +29,12 @@ internal class UpdateCategoryHandler(IUnitOfWork unitOfWork)
         return new UpdateCategoryResult(true);
     }
 
-    private static void UpdateCategory(Category category, UpdateCategoryPayload categoryPayload)
+    private static void UpdateCategory(
+        Category category, 
+        string name, 
+        string slug, 
+        string? description)
     {
-        category.Update(categoryPayload);
+        category.Update(name, slug, description);
     }
 }   

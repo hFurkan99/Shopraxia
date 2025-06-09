@@ -10,8 +10,6 @@ public class VariantAttribute : Entity<Guid>
 
     public string Value { get; set; } = null!;
 
-    private VariantAttribute() { }
-
     public static VariantAttribute Create(
         Guid variantId, 
         Guid attributeId,

@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\AttributeAggregate\Dtos\" />
     <Folder Include="Domain\Common\IntegrationEventHandlers\" />
     <Folder Include="Features\Variants\" />
     <Folder Include="IntegrationEventHandlers\" />

@@ -15,8 +15,6 @@ public class Variant : Entity<Guid>
     public Guid ProductId { get; set; }
     public Product Product { get; set; } = null!;
 
-    private Variant() { }
-
     public static Variant Create(
         string sku,
         decimal price,

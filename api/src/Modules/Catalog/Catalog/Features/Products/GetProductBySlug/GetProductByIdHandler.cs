@@ -1,6 +1,9 @@
-﻿using Catalog.Domain.Common;
+﻿namespace Catalog.Features.Products.GetProductBySlug;
 
-namespace Catalog.Features.Products.GetProductBySlug;
+public record GetProductBySlugQuery(string Slug)
+    : IQuery<GetProductBySlugResult>;
+
+public record GetProductBySlugResult(ProductDto Product);
 
 internal class GetProductByIdHandler(IUnitOfWork unitOfWork)
     : IQueryHandler<GetProductBySlugQuery, GetProductBySlugResult>

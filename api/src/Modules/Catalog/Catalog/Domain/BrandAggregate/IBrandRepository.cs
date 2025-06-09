@@ -7,6 +7,10 @@ public interface IBrandRepository : IGenericRepository<Brand, Guid>
         CancellationToken cancellationToken = default);
 
     Task<(List<Brand> Data, int TotalCount)> GetFilteredBrandsAsync(
-        GetBrandsQuery query,
+        int page = 1,
+        int pageSize = 10,
+        string? search = null,
+        string? sortBy = null,
+        string? sortOrder = null,
         CancellationToken cancellationToken = default);
 }

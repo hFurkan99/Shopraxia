@@ -1,7 +1,13 @@
-using Catalog.Domain.BrandAggregate;
-using Catalog.Domain.Common;
-
 namespace Catalog.Features.Brands.UpdateBrand;
+
+public record UpdateBrandCommand(
+    Guid Id,
+    string Name,
+    string Slug,
+    string? Description)
+    : ICommand<UpdateBrandResult>;
+
+public record UpdateBrandResult(bool IsSuccess);
 
 internal class UpdateBrandHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<UpdateBrandCommand, UpdateBrandResult>
@@ -11,10 +17,11 @@ internal class UpdateBrandHandler(IUnitOfWork unitOfWork)
         CancellationToken cancellationToken)
     {
         var brand = await unitOfWork.Brands
-            .GetByIdAsync(command.BrandPayload.Id, cancellationToken)
-            ?? throw new BrandNotFoundException(command.BrandPayload.Id);
+            .GetByIdAsync(command.Id, cancellationToken)
+            ?? throw new BrandNotFoundException(command.Id);
 
-        UpdateBrand(brand, command.BrandPayload);
+        UpdateBrand(brand, command.Name, 
+            command.Slug, command.Description);
 
         unitOfWork.Brands.Update(brand);
         await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -22,8 +29,12 @@ internal class UpdateBrandHandler(IUnitOfWork unitOfWork)
         return new UpdateBrandResult(true);
     }
 
-    private static void UpdateBrand(Brand brand, UpdateBrandPayload brandPayload)
+    private static void UpdateBrand(
+        Brand brand,
+        string name, 
+        string slug, 
+        string? description)
     {
-        brand.Update(brandPayload);
+        brand.Update(name, slug, description);
     }
 }

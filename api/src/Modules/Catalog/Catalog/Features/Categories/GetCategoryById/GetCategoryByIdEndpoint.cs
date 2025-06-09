@@ -1,9 +1,11 @@
-using Catalog.Categories.Features.GetCategoryById;
-
 namespace Catalog.Features.Categories.GetCategoryById;
 
 //public record GetCategoryByIdRequest(Guid CategoryId);
-public record GetCategoryByIdResponse(Guid Id, string Name, string Slug, string Description);
+public record GetCategoryByIdResponse(
+    Guid Id, 
+    string Name, 
+    string Slug, 
+    string? Description);
 
 public class GetCategoryByIdEndpoint : ICarterModule
 {
@@ -13,7 +15,7 @@ public class GetCategoryByIdEndpoint : ICarterModule
         {
             var query = new GetCategoryByIdQuery(id);
             var result = await sender.Send(query);
-            var response = new GetCategoryByIdResponse(result.Id, result.Name, result.Slug, result.Description);
+            var response = result.Adapt<GetCategoryByIdResponse>();
             return Results.Ok(response);
         })
         .WithName("GetCategoryById")

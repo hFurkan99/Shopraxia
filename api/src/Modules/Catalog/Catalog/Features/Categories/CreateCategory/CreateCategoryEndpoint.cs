@@ -1,6 +1,9 @@
 namespace Catalog.Features.Categories.CreateCategory;
 
-public record CreateCategoryRequest(CreateCategoryPayload CategoryPayload);
+public record CreateCategoryRequest(
+    string Name,
+    string Slug,
+    string? Description);
 public record CreateCategoryResponse(Guid Id);
 
 public class CreateCategoryEndpoint : ICarterModule

@@ -22,4 +22,13 @@ public class CategoryAttribute : Entity<Guid>
             AttributeId = attributeId
         };
     }
+
+    public void Update(Guid categoryId, Guid attributeId)
+    {
+        GuidGuard.AgainstEmptyGuid(categoryId, nameof(categoryId));
+        GuidGuard.AgainstEmptyGuid(attributeId, nameof(attributeId));
+
+        CategoryId = categoryId;
+        AttributeId = attributeId;
+    }
 }

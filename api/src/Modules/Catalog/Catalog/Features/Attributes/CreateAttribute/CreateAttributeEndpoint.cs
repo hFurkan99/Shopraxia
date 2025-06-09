@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Features.Attributes.CreateAttribute;
 
-public record CreateAttributeRequest(CreateAttributePayload AttributePayload);
+public record CreateAttributeRequest(string Name, Guid CategoryId);
 public record CreateAttributeResponse(Guid Id);
 
 public class CreateAttributeEndpoint : ICarterModule

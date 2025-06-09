@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Catalog.Data.Migrations
+namespace Catalog.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
     partial class CatalogDbContextModelSnapshot : ModelSnapshot
@@ -23,7 +23,108 @@ namespace Catalog.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Catalog.Brands.Models.Brand", b =>
+            modelBuilder.Entity("Catalog.Domain.AttributeAggregate.Attribute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Attributes", "catalog");
+                });
+
+            modelBuilder.Entity("Catalog.Domain.AttributeAggregate.Entities.CategoryAttribute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AttributeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttributeId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoryAttribute", "catalog");
+                });
+
+            modelBuilder.Entity("Catalog.Domain.AttributeAggregate.Entities.VariantAttribute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AttributeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("VariantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttributeId");
+
+                    b.HasIndex("VariantId");
+
+                    b.ToTable("VariantAttribute", "catalog");
+                });
+
+            modelBuilder.Entity("Catalog.Domain.BrandAggregate.Brand", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,7 +137,6 @@ namespace Catalog.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModified")
@@ -58,7 +158,7 @@ namespace Catalog.Data.Migrations
                     b.ToTable("Brands", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.Categories.Models.Category", b =>
+            modelBuilder.Entity("Catalog.Domain.CategoryAggregate.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +171,6 @@ namespace Catalog.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModified")
@@ -93,43 +192,7 @@ namespace Catalog.Data.Migrations
                     b.ToTable("Categories", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.ProductVariants.Models.ProductAttribute", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ProductVariantId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductVariantId");
-
-                    b.ToTable("ProductAttributes", "catalog");
-                });
-
-            modelBuilder.Entity("Catalog.ProductVariants.Models.ProductImage", b =>
+            modelBuilder.Entity("Catalog.Domain.ProductAggregate.Entities.Image", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,9 +214,6 @@ namespace Catalog.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ProductVariantId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer");
 
@@ -161,14 +221,17 @@ namespace Catalog.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("VariantId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductVariantId");
+                    b.HasIndex("VariantId");
 
-                    b.ToTable("ProductImages", "catalog");
+                    b.ToTable("Images", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.ProductVariants.Models.ProductVariant", b =>
+            modelBuilder.Entity("Catalog.Domain.ProductAggregate.Entities.Variant", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -196,8 +259,8 @@ namespace Catalog.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("integer");
+                    b.Property<long>("Stock")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -206,16 +269,16 @@ namespace Catalog.Data.Migrations
                     b.ToTable("ProductVariants", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.Products.Models.Product", b =>
+            modelBuilder.Entity("Catalog.Domain.ProductAggregate.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("BrandId")
+                    b.Property<Guid>("BrandId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -257,29 +320,56 @@ namespace Catalog.Data.Migrations
                     b.ToTable("Products", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.ProductVariants.Models.ProductAttribute", b =>
+            modelBuilder.Entity("Catalog.Domain.AttributeAggregate.Entities.CategoryAttribute", b =>
                 {
-                    b.HasOne("Catalog.ProductVariants.Models.ProductVariant", "ProductVariant")
-                        .WithMany("Attributes")
-                        .HasForeignKey("ProductVariantId")
+                    b.HasOne("Catalog.Domain.AttributeAggregate.Attribute", "Attribute")
+                        .WithMany("CategoryAttributes")
+                        .HasForeignKey("AttributeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProductVariant");
+                    b.HasOne("Catalog.Domain.CategoryAggregate.Category", "Category")
+                        .WithMany("CategoryAttributes")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Attribute");
+
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Catalog.ProductVariants.Models.ProductImage", b =>
+            modelBuilder.Entity("Catalog.Domain.AttributeAggregate.Entities.VariantAttribute", b =>
                 {
-                    b.HasOne("Catalog.ProductVariants.Models.ProductVariant", null)
+                    b.HasOne("Catalog.Domain.AttributeAggregate.Attribute", "Attribute")
+                        .WithMany("VariantAttributes")
+                        .HasForeignKey("AttributeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Catalog.Domain.ProductAggregate.Entities.Variant", "Variant")
+                        .WithMany("VariantAttributes")
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Attribute");
+
+                    b.Navigation("Variant");
+                });
+
+            modelBuilder.Entity("Catalog.Domain.ProductAggregate.Entities.Image", b =>
+                {
+                    b.HasOne("Catalog.Domain.ProductAggregate.Entities.Variant", null)
                         .WithMany("Images")
-                        .HasForeignKey("ProductVariantId")
+                        .HasForeignKey("VariantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Catalog.ProductVariants.Models.ProductVariant", b =>
+            modelBuilder.Entity("Catalog.Domain.ProductAggregate.Entities.Variant", b =>
                 {
-                    b.HasOne("Catalog.Products.Models.Product", "Product")
+                    b.HasOne("Catalog.Domain.ProductAggregate.Product", "Product")
                         .WithMany("Variants")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -288,41 +378,47 @@ namespace Catalog.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Catalog.Products.Models.Product", b =>
+            modelBuilder.Entity("Catalog.Domain.ProductAggregate.Product", b =>
                 {
-                    b.HasOne("Catalog.Brands.Models.Brand", "Brand")
-                        .WithMany("Products")
+                    b.HasOne("Catalog.Domain.BrandAggregate.Brand", "Brand")
+                        .WithMany()
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
-                    b.HasOne("Catalog.Categories.Models.Category", "Category")
+                    b.HasOne("Catalog.Domain.CategoryAggregate.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Catalog.Brands.Models.Brand", b =>
+            modelBuilder.Entity("Catalog.Domain.AttributeAggregate.Attribute", b =>
                 {
+                    b.Navigation("CategoryAttributes");
+
+                    b.Navigation("VariantAttributes");
+                });
+
+            modelBuilder.Entity("Catalog.Domain.CategoryAggregate.Category", b =>
+                {
+                    b.Navigation("CategoryAttributes");
+
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Catalog.Categories.Models.Category", b =>
+            modelBuilder.Entity("Catalog.Domain.ProductAggregate.Entities.Variant", b =>
                 {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Catalog.ProductVariants.Models.ProductVariant", b =>
-                {
-                    b.Navigation("Attributes");
-
                     b.Navigation("Images");
+
+                    b.Navigation("VariantAttributes");
                 });
 
-            modelBuilder.Entity("Catalog.Products.Models.Product", b =>
+            modelBuilder.Entity("Catalog.Domain.ProductAggregate.Product", b =>
                 {
                     b.Navigation("Variants");
                 });

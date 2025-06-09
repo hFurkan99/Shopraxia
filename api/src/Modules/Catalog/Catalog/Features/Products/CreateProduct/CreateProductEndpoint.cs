@@ -1,6 +1,13 @@
 ﻿namespace Catalog.Features.Products.CreateProduct;
 
-public record CreateProductRequest(CreateProductPayload ProductPayload);
+public record CreateProductRequest(
+    string Name,
+    string Slug,
+    string Description,
+    float Rating,
+    Guid CategoryId,
+    Guid BrandId,
+    List<CreateProductVariantPayload> Variants);
 
 public record CreateProductResponse(Guid Id);
 

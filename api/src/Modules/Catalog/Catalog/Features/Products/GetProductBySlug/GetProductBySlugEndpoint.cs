@@ -1,6 +1,4 @@
-﻿using Catalog.Products.Features.GetProductBySlug;
-
-namespace Catalog.Features.Products.GetProductBySlug;
+﻿namespace Catalog.Features.Products.GetProductBySlug;
 
 //public record GetProductBySlugRequest(string Slug);
 public record GetProductBySlugResponse(ProductDto Product);

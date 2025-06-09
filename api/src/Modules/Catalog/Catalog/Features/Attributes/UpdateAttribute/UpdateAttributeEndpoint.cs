@@ -1,6 +1,6 @@
 namespace Catalog.Features.Attributes.UpdateAttribute;
 
-public record UpdateAttributeRequest(UpdateAttributePayload AttributePayload);
+public record UpdateAttributeRequest(Guid Id, string Name, Guid CategoryId);
 public record UpdateAttributeResponse(bool IsSuccess);
 
 public class UpdateAttributeEndpoint : ICarterModule

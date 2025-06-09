@@ -1,6 +1,13 @@
-using Catalog.Domain.Common;
-
 namespace Catalog.Features.Brands.GetBrandById;
+
+public record GetBrandByIdQuery(Guid BrandId)
+    : IQuery<GetBrandByIdResult>;
+
+public record GetBrandByIdResult(
+    Guid Id,
+    string Name,
+    string Slug,
+    string? Description);
 
 internal class GetBrandByIdHandler(IUnitOfWork unitOfWork)
     : IQueryHandler<GetBrandByIdQuery, GetBrandByIdResult>

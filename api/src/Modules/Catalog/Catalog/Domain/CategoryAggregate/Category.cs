@@ -7,7 +7,7 @@ public class Category : Aggregate<Guid>
 
     public string Name { get; set; } = default!;
     public string Slug { get; set; } = default!;
-    public string Description { get; set; } = default!;
+    public string? Description { get; set; } = default!;
 
     public IReadOnlyList<Product> Products => _products.AsReadOnly();
     public IReadOnlyList<CategoryAttribute> CategoryAttributes => _categoryAttributes.AsReadOnly();
@@ -17,7 +17,7 @@ public class Category : Aggregate<Guid>
     public static Category Create(
         string name,
         string slug,
-        string description)
+        string? description)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentException.ThrowIfNullOrWhiteSpace(slug);
@@ -36,7 +36,7 @@ public class Category : Aggregate<Guid>
     public void Update(
         string name,
         string slug,
-        string description)
+        string? description)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentException.ThrowIfNullOrWhiteSpace(slug);

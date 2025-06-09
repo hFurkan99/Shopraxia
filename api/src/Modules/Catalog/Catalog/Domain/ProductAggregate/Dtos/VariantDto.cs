@@ -5,5 +5,5 @@ public record VariantDto(
     string Sku,
     decimal Price,
     int Stock,
-    List<AttributeDto> Attributes,
+    List<VariantAttributeDto> Attributes,
     List<ImageDto> Images);

@@ -1,7 +1,4 @@
-﻿using Catalog.Domain.BrandAggregate;
-using Catalog.Infrastructure.Persistence;
-
-namespace Catalog.Infrastructure.Repositories;
+﻿namespace Catalog.Infrastructure.Persistence.Repositories;
 
 public class BrandRepository(CatalogDbContext context)
     : GenericRepository<Brand, Guid>(context), IBrandRepository
@@ -12,20 +9,27 @@ public class BrandRepository(CatalogDbContext context)
             .FirstOrDefaultAsync(b => b.Slug == brandSlug, cancellationToken);
     }
 
-    public async Task<(List<Brand> Data, int TotalCount)> GetFilteredBrandsAsync(GetBrandsPayload payload, CancellationToken cancellationToken = default)
+    public async Task<(List<Brand> Data, int TotalCount)> GetFilteredBrandsAsync(
+        int page = 1,
+        int pageSize = 10,
+        string? search = null,
+        string? sortBy = null,
+        string? sortOrder = null,
+        CancellationToken cancellationToken = default)
     {
         var query = _dbSet.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(payload.Search))
+        if (!string.IsNullOrWhiteSpace(search))
         {
-            var search = payload.Search.ToLower();
-            query = query.Where(b => b.Name.ToLower().Contains(search) || b.Slug.ToLower().Contains(search));
+            query = query.Where(
+                b => b.Name.ToLower().Contains(search.ToLower())
+                || b.Slug.ToLower().Contains(search.ToLower()));
         }
 
-        if (!string.IsNullOrWhiteSpace(payload.SortBy))
+        if (!string.IsNullOrWhiteSpace(sortBy))
         {
-            bool ascending = payload.SortOrder?.ToLower() != "desc";
-            query = payload.SortBy.ToLower() switch
+            bool ascending = sortOrder?.ToLower() != "desc";
+            query = sortBy.ToLower() switch
             {
                 "name" => ascending ? query.OrderBy(b => b.Name) : query.OrderByDescending(b => b.Name),
                 _ => query.OrderBy(b => b.Id)
@@ -39,8 +43,8 @@ public class BrandRepository(CatalogDbContext context)
         var totalCount = await query.CountAsync(cancellationToken);
 
         var items = await query
-            .Skip((payload.Page - 1) * payload.PageSize)
-            .Take(payload.PageSize)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
 
         return (items, totalCount);
