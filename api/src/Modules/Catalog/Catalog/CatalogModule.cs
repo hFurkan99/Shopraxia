@@ -1,9 +1,4 @@
-﻿using Catalog.Domain.AttributeAggregate;
-using Catalog.Domain.BrandAggregate;
-using Catalog.Domain.CategoryAggregate;
-using Catalog.Domain.Common;
-using Catalog.Domain.ProductAggregate;
-using Catalog.Infrastructure.Mappings;
+﻿using Catalog.Infrastructure.Mappings;
 using Catalog.Infrastructure.Persistence;
 using Catalog.Infrastructure.Persistence.Repositories;
 using Catalog.Infrastructure.Persistence.Seed;

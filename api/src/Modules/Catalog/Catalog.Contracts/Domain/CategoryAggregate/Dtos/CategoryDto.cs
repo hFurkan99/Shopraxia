@@ -1,4 +1,4 @@
-﻿namespace Catalog.Domain.CategoryAggregate.Dtos;
+﻿namespace Catalog.Contracts.Domain.CategoryAggregate.Dtos;
 
 public record CategoryDto(
     Guid Id,

@@ -6,15 +6,17 @@ builder.Host
     config.ReadFrom.Configuration(context.Configuration));
 
 var catalogAssembly = typeof(CatalogModule).Assembly;
+var basketAssembly = typeof(BasketModule).Assembly;
 
 builder.Services
-    .AddCarterWithAssemblies(catalogAssembly);
+    .AddCarterWithAssemblies(catalogAssembly, basketAssembly);
 
 builder.Services
-    .AddMediatRWithAssemblies(catalogAssembly);
+    .AddMediatRWithAssemblies(catalogAssembly, basketAssembly);
 
 builder.Services
-    .AddCatalogModule(builder.Configuration);
+    .AddCatalogModule(builder.Configuration)
+    .AddBasketModule(builder.Configuration);
 
 builder.Services
     .AddExceptionHandler<CustomExceptionHandler>();
@@ -52,6 +54,8 @@ app.MapGet("/", context =>
 app.MapCarter();
 app.UseSerilogRequestLogging();
 app.UseExceptionHandler(options => { });
-app.UseCatalogModule();
+
+app.UseCatalogModule()
+    .UseBasketModule();
 
 app.Run();

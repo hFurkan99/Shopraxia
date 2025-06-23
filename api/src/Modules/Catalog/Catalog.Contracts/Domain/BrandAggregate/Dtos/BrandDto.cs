@@ -1,4 +1,4 @@
-﻿namespace Catalog.Domain.BrandAggregate.Dtos;
+﻿namespace Catalog.Contracts.Domain.BrandAggregate.Dtos;
 
 public record BrandDto(
     Guid Id,

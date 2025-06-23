@@ -1,10 +1,4 @@
-﻿using Catalog.Domain.AttributeAggregate;
-using Catalog.Domain.BrandAggregate;
-using Catalog.Domain.CategoryAggregate;
-using Catalog.Domain.Common;
-using Catalog.Domain.ProductAggregate;
-
-namespace Catalog.Infrastructure.Persistence;
+﻿namespace Catalog.Infrastructure.Persistence;
 
 public class UnitOfWork(CatalogDbContext context, 
     IProductRepository productRepository,

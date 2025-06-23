@@ -1,4 +1,4 @@
-﻿namespace Catalog.Domain.ProductAggregate.Dtos;
+﻿namespace Catalog.Contracts.Domain.ProductAggregate.Dtos;
 
 public record VariantAttributeDto(
     string Name,
