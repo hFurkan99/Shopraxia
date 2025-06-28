@@ -19,3 +19,4 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Routing;
 global using Mapster;
 global using Microsoft.AspNetCore.Builder;
+global using Basket.Domain.BasketAggregate.Dtos;

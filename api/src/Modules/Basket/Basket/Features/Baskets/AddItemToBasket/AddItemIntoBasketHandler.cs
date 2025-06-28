@@ -49,8 +49,14 @@ internal class AddItemIntoBasketHandler
         bool isNewCart,
         CancellationToken cancellationToken)
     {
-        var product = await sender.Send(new GetProductByIdQuery(productId), cancellationToken);
-        shoppingCart.AddItem(productId, productVariantId, quantity, product.Product.Variants[0].Price);
+        var product = await sender.Send(new GetProductByIdQuery(productId), cancellationToken) 
+            ?? throw new NotFoundException("Product", productId);
+
+        var productVariant = product.Product.Variants
+            .FirstOrDefault(v => v.Id == productVariantId) 
+            ?? throw new NotFoundException("Product variant", productVariantId!.Value);
+
+        shoppingCart.AddItem(productId, productVariantId, quantity, productVariant!.Price);
 
         if(isNewCart)
         {

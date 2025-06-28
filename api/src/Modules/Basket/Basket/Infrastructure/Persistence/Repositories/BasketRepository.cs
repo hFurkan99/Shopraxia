@@ -7,7 +7,6 @@ public class BasketRepository(BasketDbContext context)
     {
         return await _context.ShoppingCarts
             .Include(b => b.Items)
-            .AsNoTracking()
             .FirstOrDefaultAsync(b => b.UserId == userId, cancellationToken);
     }
 }

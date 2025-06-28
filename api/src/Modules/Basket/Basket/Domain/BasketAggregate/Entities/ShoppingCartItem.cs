@@ -8,6 +8,8 @@ public class ShoppingCartItem : Entity<Guid>
     public int Quantity { get; internal set; }
     public decimal UnitPrice { get; private set; }
 
+    public ShoppingCartItem() { }
+
     internal ShoppingCartItem(
         Guid shoppingCartId, 
         Guid productId, 
@@ -37,6 +39,7 @@ public class ShoppingCartItem : Entity<Guid>
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
         if (Quantity - amount >= 0) Quantity -= amount;
+        else Quantity = 0;
     }
 
     public void SetQuantity(int newQuantity)
