@@ -1,0 +1,15 @@
+﻿global using Shared.Contracts.CQRS;
+global using User.Domain.UserAggregate.Entities;
+global using Microsoft.AspNetCore.Identity;
+global using FluentValidation;
+global using Carter;
+global using Mapster;
+global using MediatR;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Routing;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;

@@ -1,7 +1,6 @@
 ﻿namespace Basket.Features.Baskets.AddItemToBasket;
 
 public record AddItemIntoBasketRequest(
-    Guid UserId,
     Guid ProductId,
     Guid? ProductVariantId,
     int Quantity);
@@ -12,13 +11,19 @@ public class AddItemIntoBasketEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/baskets/add-item", async (AddItemIntoBasketRequest request, ISender sender) =>
+        app.MapPost("/baskets/add-item", async (AddItemIntoBasketRequest request, 
+            ISender sender, HttpContext httpContext) =>
         {
-            var command = request.Adapt<AddItemIntoBasketCommand>();
+            var userId = httpContext.User.GetUserId();
+            
+            var command = request.Adapt<AddItemIntoBasketCommand>() 
+            with { UserId = userId };
+
             var result = await sender.Send(command);
             var response = result.Adapt<AddItemIntoBasketResponse>();
             return Results.Created($"/baskets/{response.Id}", response);
         })
+        .RequireAuthorization()
         .WithName("AddItemToBasket")
         .Produces<AddItemIntoBasketResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)

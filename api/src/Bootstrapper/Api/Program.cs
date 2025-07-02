@@ -7,16 +7,22 @@ builder.Host
 
 var catalogAssembly = typeof(CatalogModule).Assembly;
 var basketAssembly = typeof(BasketModule).Assembly;
+var userAssembly = typeof(UserModule).Assembly;
 
 builder.Services
-    .AddCarterWithAssemblies(catalogAssembly, basketAssembly);
+    .AddCarterWithAssemblies(catalogAssembly, 
+    basketAssembly, userAssembly);
 
 builder.Services
-    .AddMediatRWithAssemblies(catalogAssembly, basketAssembly);
+    .AddMediatRWithAssemblies(catalogAssembly, 
+    basketAssembly, userAssembly);
 
 builder.Services
     .AddCatalogModule(builder.Configuration)
-    .AddBasketModule(builder.Configuration);
+    .AddBasketModule(builder.Configuration)
+    .AddUserModule(builder.Configuration);
+
+builder.Services.AddControllers();
 
 builder.Services
     .AddExceptionHandler<CustomExceptionHandler>();
@@ -34,6 +40,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 // Configure the HTTP request pipeline.
 var app = builder.Build();
 
@@ -51,11 +58,14 @@ app.MapGet("/", context =>
     return Task.CompletedTask;
 });
 
-app.MapCarter();
 app.UseSerilogRequestLogging();
 app.UseExceptionHandler(options => { });
 
 app.UseCatalogModule()
-    .UseBasketModule();
+    .UseBasketModule()
+    .UseUserModule();
+
+app.MapControllers();
+app.MapCarter();
 
 app.Run();

@@ -42,9 +42,7 @@ public static class CatalogModule
 
     public static IApplicationBuilder UseCatalogModule(this IApplicationBuilder app)
     {
-
         app.UseMigration<CatalogDbContext>();
-
         return app;
     }
 }

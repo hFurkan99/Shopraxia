@@ -29,7 +29,6 @@ internal class GetBasketHandler
             items.Add(itemDto);
         }
 
-
         return new GetBasketResult(
             shoppingCart.Id,
             shoppingCart.UserId,

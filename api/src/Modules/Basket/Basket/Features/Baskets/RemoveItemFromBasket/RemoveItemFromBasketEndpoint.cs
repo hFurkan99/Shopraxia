@@ -12,13 +12,19 @@ public class RemoveItemFromBasketEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/baskets/remove-item", async (RemoveItemFromBasketRequest request, ISender sender) =>
+        app.MapPost("/baskets/remove-item", async (RemoveItemFromBasketRequest request, 
+            ISender sender, HttpContext httpContext) =>
         {
-            var command = request.Adapt<RemoveItemFromBasketCommand>();
+            var userId = httpContext.User.GetUserId();
+
+            var command = request.Adapt<RemoveItemFromBasketCommand>() 
+            with { UserId = userId };
+
             var result = await sender.Send(command);
             var response = result.Adapt<RemoveItemFromBasketResponse>();
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithName("RemoveItemFromBasket")
         .Produces<RemoveItemFromBasketResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
